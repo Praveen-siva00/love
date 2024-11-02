@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Love Calculator Data</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        h1 { color: #ff5c5c; }
+        .data-container { margin-top: 20px; }
+        .data-item { padding: 10px; border-bottom: 1px solid #ddd; }
+    </style>
+</head>
+<body>
+    <h1>Love Calculator Data</h1>
+    <div class="data-container" id="dataContainer">
+        <!-- JSON data will be inserted here -->
+    </div>
+
+    <script>
+        // Fetch JSON data and display it on the webpage
+        fetch('/data')
+            .then(response => response.json())
+            .then(data => {
+                const container = document.getElementById('dataContainer');
+                container.innerHTML = ''; // Clear previous content
+
+                // Check if there is any data
+                if (data.length === 0) {
+                    container.innerHTML = '<p>No data available.</p>';
+                    return;
+                }
+
+                // Display each item
+                data.forEach(item => {
+                    const itemDiv = document.createElement('div');
+                    itemDiv.classList.add('data-item');
+                    itemDiv.innerHTML = `<strong>${item.name1} ❤️ ${item.name2}</strong> - Love Score: ${item.loveScore}%`;
+                    container.appendChild(itemDiv);
+                });
+            })
+            .catch(error => {
+                console.error('Error fetching data:', error);
+                document.getElementById('dataContainer').innerText = 'Error loading data.';
+            });
+    </script>
+</body>
+</html>
